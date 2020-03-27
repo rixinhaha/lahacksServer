@@ -1,2 +1,2 @@
 # lahacksServer
-## To start the server, run `npm install` and `nodemon start`
+To start the server, run `npm install` and `nodemon start`
