@@ -4,10 +4,10 @@ const Room = require('./models/room.js');
 const Message = require('./models/message.js');
 
 const uri = "mongodb+srv://cy-liu:RJCZ0e4xbvAGso2D@youtube-chatroom-uc5uy.gcp.mongodb.net/test?retryWrites=true&w=majority";
-//mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Local mongodb as alternate
-mongoose.connect("mongodb://localhost:27017/youtube-chatroom", {useNewUrlParser: true, useUnifiedTopology: true});
+//mongoose.connect("mongodb://localhost:27017/youtube-chatroom", {useNewUrlParser: true, useUnifiedTopology: true});
 
 const lib = {};
 
