@@ -139,6 +139,9 @@ lib.getMessagesInRoom = async ({room, numMessages}) => {
     if(!roomDoc){
       return {error: 'User does not exist.'};
     }
+    if(numMessages > roomDoc.messages.length){
+      numMessages = roomDoc.messages.length;
+    }
     return roomDoc.messages.slice(0, numMessages).map(message => message.toObject());
   }catch(err){
     return {error: err};
