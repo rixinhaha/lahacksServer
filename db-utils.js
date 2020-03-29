@@ -50,7 +50,7 @@ lib.createUser = async (userName) => {
   }
 }
 
-lib.addMessage = async ({user, message, room}) => {
+lib.addMessage = async ({user, message, room, avatar}) => {
   try{
     const docs = await Promise.all([Room.findOne({name: room}), User.findOne({name: user})]);
     const roomDoc = docs[0];
@@ -62,7 +62,7 @@ lib.addMessage = async ({user, message, room}) => {
     if(!userDoc){
       return {error: 'User does not exist.'};
     }
-    const msgDoc = await Message.create({content: message, author: user});
+    const msgDoc = await Message.create({content: message, author: {name: user, avatar}});
     roomDoc.messages.push(msgDoc);
     roomDoc.save();
     return { data: msgDoc.toObject() };

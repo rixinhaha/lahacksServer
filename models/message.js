@@ -6,7 +6,10 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  author: String
+  author: {
+    name: String,
+    avatar: String
+  }
 });
 
 module.exports = mongoose.model('Message', messageSchema);

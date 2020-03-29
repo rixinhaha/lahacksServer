@@ -41,7 +41,7 @@ io.on('connection', (socket)=>{
     socket.on('sendMessage',async(message, callback)=>{
         const info =  getUserAndRoom(socket.id);
 
-        const res = await db.addMessage({user: info.user, message: message.text, room: info.room});
+        const res = await db.addMessage({user: info.user, message: message.text, room: info.room, avatar: message.avatar});
         if(res.error){
             console.log("error: ", resAddUser.error);
             return res.error;

@@ -41,10 +41,10 @@ const func6 = async (room, numMessages) => {
     return results
 }
 
-//func0(users).then(res => console.log(res));
+func0(users).then(res => console.log(res));
 //func1(rooms).then(res => {console.log(res);});
 //func2(users).then(res => console.log(res));
 //func3(users).then(res => {console.log(res);});
 //func4("room1").then(res => {console.log(res)});
 //func5("room1").then(res => console.log(res));
-func6("room1", 5).then(res=> console.log(res));
+//func6("room1", 5).then(res=> console.log(res));
