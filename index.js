@@ -3,8 +3,10 @@ const socketio = require('socket.io');
 const http  = require('http');
 const {addUser, removeUser, getUserAndRoom} = require('./user-utils.js');
 const db = require('./db-utils')
+const path = require('path');
 
 const PORT = 5000;
+//const PORT = process.env.PORT;
 const router =  require('./router');
 
 const app = express();
@@ -68,6 +70,7 @@ io.on('connection', (socket)=>{
 })
 
 app.use(router);
+app.use(express.static(path.join(__dirname, '../lahacksClient/build')));
 app.use(express.urlencoded({extended: true}));
 
 server.listen(PORT, ()=>{console.log(`Server has started on ${PORT}`)});

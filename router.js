@@ -1,9 +1,11 @@
 const express = require('express');
 const router  = express.Router();
 const db = require('./db-utils.js')
+const path = require('path');
 
 //root
 router.get('/', (req, res)=>{
+    //res.sendFile(path.join(__dirname, '../lahacksClient/build/index.html'));
     res.send('server is up and running');
 });
 
@@ -26,6 +28,7 @@ router.get('/rooms/:roomname/messages', async (req, res) => {
     }
     const messages = await db.getMessagesInRoom(options);
     if(messages.error) {
+        console.log(messages.error);
         res.sendStatus(400);
     }else{
         messages.last_id = messages.data[messages.data.length - 1]._id;
