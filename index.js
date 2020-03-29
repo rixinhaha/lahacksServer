@@ -1,7 +1,7 @@
 const express = require('express');
 const socketio = require('socket.io');
 const http  = require('http');
-const {addUser, removeUser, getUserAndRoom} = require('./user.js');
+const {addUser, removeUser, getUserAndRoom} = require('./user-utils.js');
 const db = require('./db-utils')
 
 const PORT = 5000;
@@ -73,6 +73,6 @@ io.on('connection', (socket)=>{
 })
 
 app.use(router);
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 
 server.listen(PORT, ()=>{console.log(`Server has started on ${PORT}`)});
