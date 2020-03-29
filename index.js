@@ -14,6 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 app.use(cors())
+app.set('etag', false);
 
 io.on('connection', (socket)=>{
     console.log("We have a new connection!!!");
