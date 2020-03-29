@@ -26,12 +26,14 @@ io.on('connection', (socket)=>{
         }
         console.log(resRoom);
 
-        try{
-            resUser = await db.createUser(name);
-        }
-        catch (err){
-            return {err:err};
-        }     
+
+        //FOR TESTING
+        // try{
+        //     resUser = await db.createUser(name);
+        // }
+        // catch (err){
+        //     return {err:err};
+        // }     
         // console.log(resUser);
 
         try{
@@ -89,6 +91,7 @@ io.on('connection', (socket)=>{
 })
 
 app.use(router);
+app.use(express.urlencoded());
 
 server.listen(PORT, ()=>{console.log(`Server has started on ${PORT}`)});
 
