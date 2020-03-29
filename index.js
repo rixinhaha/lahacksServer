@@ -3,6 +3,8 @@ const socketio = require('socket.io');
 const http  = require('http');
 const {addUser, removeUser, getUserAndRoom} = require('./user-utils.js');
 const db = require('./db-utils')
+const bodyParser = require('body-parser')
+
 
 const PORT = 5000;
 const router =  require('./router');
@@ -10,7 +12,6 @@ const router =  require('./router');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
 
 io.on('connection', (socket)=>{
     console.log("We have a new connection!!!");
@@ -69,5 +70,6 @@ io.on('connection', (socket)=>{
 
 app.use(router);
 app.use(express.urlencoded({extended: true}));
+
 
 server.listen(PORT, ()=>{console.log(`Server has started on ${PORT}`)});
