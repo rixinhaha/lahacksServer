@@ -7,17 +7,19 @@ router.get('/', (req, res)=>{
 });
 
 router.get('/rooms/:roomname/messages', async (req, res) => {
-    const messages = await db.getMessagesInRoom({
+    options = {
         room: req.params.roomname,
-        numMessages: req.query.num,
-        startId: req.query.start_id
-    });
+        numMessages: parseInt(req.query.num),
+    }
+    if(typeof req.query.start_id != 'undefined'){
+        options.startId = req.query.start_id
+    }
+    const messages = await db.getMessagesInRoom(options);
     if(messages.error) {
-        console.log(messages.error);
-        res.sendStatus('404');
+        res.sendStatus(404).send(messages.error);
     }else{
-        messages.last_id = res.data[res.data.length - 1]._id;
-       res.json(messages); 
+        messages.last_id = messages.data[messages.data.length - 1]._id;
+        res.json(messages); 
     }
 });
 
