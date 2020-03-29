@@ -15,8 +15,16 @@ const lib = {};
 lib.createRoom = async (roomName) => {
   //Not checking for duplicates as roomName should be unique anyway
   try{
-    const roomDoc = await Room.create({name: roomName});
-    return roomDoc.toObject();
+    const roomDoc = await Room.findOne({name: roomName});
+    if(!roomDoc){
+      try{
+        const newRoom = await Room.create({name: roomName});
+        return { data: newRoom.toObject() };
+      }catch(err){
+        return {error: err};
+      } 
+    }
+    return { data: roomDoc.toObject() };
   }catch(err){
     return {error: err};
   }
@@ -31,7 +39,7 @@ lib.createUser = async (userName) => {
     if(!userDoc){
       try{
         const newUser = await User.create({name: userName});
-        return newUser.toObject();
+        return { data: newUser.toObject() };
       }catch(err){
         return {error: err};
       }
@@ -57,7 +65,7 @@ lib.addMessage = async ({user, message, room}) => {
     const msgDoc = await Message.create({content: message, author: user});
     roomDoc.messages.push(msgDoc);
     roomDoc.save();
-    return msgDoc.toObject();
+    return { data: msgDoc.toObject() };
   }catch(err){
     return {error: err};
   }
@@ -77,7 +85,7 @@ lib.addUserToRoom = async ({user, room}) => {
     }
     roomDoc.users.push(userDoc._id);
     roomDoc.save();
-    return userDoc.toObject();
+    return { data: userDoc.toObject() };
   }catch(err){
     return {error: err};
   }
@@ -95,7 +103,7 @@ lib.removeUserFromRoom = async ({user, room}) =>{
       return {error: 'User does not exist.'};
     }
     Room.updateOne({name: room}, {$pull: {users: userDoc._id}});;
-    return userDoc.toObject();
+    return { data: userDoc.toObject() };
   }catch(err){
     return {error: err};
   }
@@ -108,7 +116,7 @@ lib.getUser = async (userName) => {
     if(!userDoc){
       return {error: 'User does not exist.'};
     }
-    return userDoc.toObject();
+    return { data: userDoc.toObject() };
   }catch(err){
     return {error: err};
   }
@@ -118,15 +126,16 @@ lib.getUsersInRoom = async (roomName) => {
   try{
     const roomDoc = await Room.findOne({name: roomName}).populate('users');
     if(!roomDoc){
-      return {error: 'User does not exist.'};
+      return {error: 'Room does not exist.'};
     }
-    return roomDoc.users.map(user => user.toObject());
+    return { data: roomDoc.users.map(user => user.toObject()) };
   }catch(err){
     return {error: err};
   }
 }
 
-lib.getMessagesInRoom = async ({room, numMessages}) => {
+lib.getMessagesInRoom = async ({room, numMessages, startId}) => {
+  //Don't declare startId if you want it to start from beginning
   try{
     const roomDoc = await Room.findOne({name: room}).populate({
       path: 'messages',
@@ -137,12 +146,27 @@ lib.getMessagesInRoom = async ({room, numMessages}) => {
       }
     });
     if(!roomDoc){
-      return {error: 'User does not exist.'};
+      return {error: 'Room does not exist.'};
     }
-    if(numMessages > roomDoc.messages.length){
-      numMessages = roomDoc.messages.length;
+    const messages = roomDoc.messages;
+    let index = -1;
+    if(!startId){
+      index = 0;
+    }else{
+      for(let i = 0; i < messages.length; i++){
+        if(messages[i].id === startId){
+          index = i;
+          break;
+        }
+      }
     }
-    return roomDoc.messages.slice(0, numMessages).map(message => message.toObject());
+    if(index === -1){
+      return {error: 'Invalid id'};
+    }
+    if(index + numMessages > messages.length){
+      numMessages = messages.length - index;
+    }
+    return { data: messages.slice(index, index + numMessages).map(message => message.toObject()) };
   }catch(err){
     return {error: err};
   }
