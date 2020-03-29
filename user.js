@@ -3,13 +3,10 @@ let currentUsers = [];
  // socket id should be unique so there should be no need to check other values
 
 const addUser = ({user, id, room}) => {
-
-
     const existingUser = currentUsers.find((user)=> user.id===id );
     if (existingUser) {
         return { error: 'Username is taken'};
     }
-
     currentUsers.push({user, id, room});
     console.log(currentUsers)
 }
