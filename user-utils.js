@@ -7,7 +7,6 @@ const addUser = ({user, id, room}) => {
     if (existingUser) {
         return { error: 'Username is taken'};
     }
-
     currentUsers.push({user, id, room});
     console.log(currentUsers)
 }
