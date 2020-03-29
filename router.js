@@ -26,7 +26,7 @@ router.get('/rooms/:roomname/messages', async (req, res) => {
     }
     const messages = await db.getMessagesInRoom(options);
     if(messages.error) {
-        res.sendStatus(404).send(messages.error);
+        res.sendStatus(400);
     }else{
         messages.last_id = messages.data[messages.data.length - 1]._id;
         res.json(messages); 
