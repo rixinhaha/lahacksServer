@@ -15,12 +15,10 @@ const io = socketio(server);
 io.on('connection', (socket)=>{
     console.log("We have a new connection!!!");
     socket.on('join', async ({name,room}, callback)=>{
-        // const {error, user} = addUser({id: socket.id, name, room});
         const resRoom = await db.createRoom(room);
         if(resRoom.error){
             return resRoom.error;
         }
-        console.log(resRoom);
 
         const resAddUser = await db.addUserToRoom({user: name, room:room});
         if(resAddUser.error){
@@ -42,8 +40,6 @@ io.on('connection', (socket)=>{
     });
     socket.on('sendMessage',async(message, callback)=>{
         const info =  getUserAndRoom(socket.id);
-        console.log('here');
-        console.log("info: ", info);
 
         const res = await db.addMessage({user: info.user, message: message.text, room: info.room});
         if(res.error){
@@ -57,7 +53,6 @@ io.on('connection', (socket)=>{
     });
     socket.on('disconnect', async()=>{
         const info =  getUserAndRoom(socket.id);
-        console.log(info);
 
         const res = await db.removeUserFromRoom({user: info.user, room: info.room});
         if(res.error){
@@ -68,7 +63,7 @@ io.on('connection', (socket)=>{
         if(info){
             io.to(info.room).emit('message', {user: 'admin', text: `${info.user} has left`});
         }
-        console.log('User had left!!')
+        console.log('User has left!!')
     });
 })
 
