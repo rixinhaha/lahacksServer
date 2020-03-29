@@ -102,7 +102,7 @@ lib.removeUserFromRoom = async ({user, room}) =>{
     if(!userDoc){
       return {error: 'User does not exist.'};
     }
-    Room.updateOne({name: room}, {$pull: {users: userDoc._id}});;
+    await Room.updateOne({name: room}, {$pull: {users: userDoc._id}});;
     return { data: userDoc.toObject() };
   }catch(err){
     return {error: err};

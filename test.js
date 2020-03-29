@@ -37,13 +37,14 @@ const func5 = async (room) => {
 }
 
 const func6 = async (room, numMessages) => {
-    const results = await db.getMessagesInRoom({room, numMessages});
+    const results = await db.getMessagesInRoom({room, numMessages, startId:'5e7f747f82d1d936471b8ffa' });
     return results
 }
 
-func1(rooms).then(res => {console.log(res);});
-//func2(users).then(res => {console.log(res);};
+//func0(users).then(res => console.log(res));
+//func1(rooms).then(res => {console.log(res);});
+//func2(users).then(res => console.log(res));
 //func3(users).then(res => {console.log(res);});
 //func4("room1").then(res => {console.log(res)});
-// func5("room1").then(res => console.log(res));
-//func6("room1", 5).then(res=> console.log(res));
+//func5("room1").then(res => console.log(res));
+func6("room1", 5).then(res=> console.log(res));

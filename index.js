@@ -47,7 +47,7 @@ io.on('connection', (socket)=>{
 
         const res = await db.addMessage({user: info.user, message: message.text, room: info.room});
         if(res.error){
-            console.log(res.error);
+            console.log("error: ", resAddUser.error);
             return res.error;
         }
 
@@ -61,9 +61,9 @@ io.on('connection', (socket)=>{
 
         const res = await db.removeUserFromRoom({user: info.user, room: info.room});
         if(res.error){
+            console.log("error: ", resAddUser.error);
             return res.error
         }
-            
         removeUser(socket.id);
         if(info){
             io.to(info.room).emit('message', {user: 'admin', text: `${info.user} has left`});

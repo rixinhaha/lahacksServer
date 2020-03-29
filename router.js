@@ -2,10 +2,20 @@ const express = require('express');
 const router  = express.Router();
 const db = require('./db-utils.js')
 
+//root
 router.get('/', (req, res)=>{
     res.send('server is up and running');
 });
 
+//User signup
+// router.post('/users', async (req, res) => {
+// });
+
+//Redirect to chatroom
+//router.get('/rooms/:roomid', (req, res) => {
+//})
+
+//Get old messages
 router.get('/rooms/:roomname/messages', async (req, res) => {
     options = {
         room: req.params.roomname,
