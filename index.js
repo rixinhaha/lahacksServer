@@ -31,7 +31,7 @@ io.on('connection', (socket)=>{
         addUser({
             user: name,
             id: socket.id,
-            room: room         
+            room: room
         });
 
         socket.emit('message', {user: 'admin', text: `${name}, welcome to the room ${room}`});
