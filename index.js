@@ -4,6 +4,7 @@ const http  = require('http');
 const {addUser, removeUser, getUserAndRoom} = require('./user-utils.js');
 const db = require('./db-utils')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 
 const PORT = 5000;
@@ -12,6 +13,7 @@ const router =  require('./router');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+app.use(cors())
 
 io.on('connection', (socket)=>{
     console.log("We have a new connection!!!");
