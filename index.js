@@ -6,9 +6,10 @@ const db = require('./db-utils')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-
-// const PORT = 5000;
-const PORT = process.env.PORT;
+let PORT = process.env.PORT;
+if(!port){
+    PORT = 5000;
+}
 const router =  require('./router');
 
 const app = express();
