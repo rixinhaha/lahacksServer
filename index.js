@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 let PORT = process.env.PORT;
-if(!port){
+if(!PORT){
     PORT = 5000;
 }
 const router =  require('./router');
