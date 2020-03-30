@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 
-const PORT = 5000;
-// const PORT = process.env.PORT;
+// const PORT = 5000;
+const PORT = process.env.PORT;
 const router =  require('./router');
 
 const app = express();
