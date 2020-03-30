@@ -1,6 +1,6 @@
 const db = require('./db-utils.js')
 
-const users = ["tom", "dick", "harry", "jones", "peter", "paul", "arthur"];
+const users = ["vincent", "rixin", "charles", "shaodian"];
 const rooms = ["room1", "room2", "room3"];
 
 const func0 = async (users) => {

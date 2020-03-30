@@ -9,9 +9,19 @@ router.get('/', (req, res)=>{
     res.send('server is up and running');
 });
 
-//User signup
-// router.post('/users', async (req, res) => {
-// });
+// User signup
+router.post('/users', async (req, res) => {
+    console.log(req);
+    var user = req.query.user;
+    const result = await db.createUser(user);
+    console.log(result);
+    if(result.error) {
+        res.sendStatus(404).send(result.error);
+    }else{
+        res.sendStatus(200); 
+    }
+
+});
 
 //Redirect to chatroom
 //router.get('/rooms/:roomid', (req, res) => {

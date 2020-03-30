@@ -3,17 +3,13 @@ const User = require('./models/user.js');
 const Room = require('./models/room.js');
 const Message = require('./models/message.js');
 
-const uri = "mongodb+srv://cy-liu:RJCZ0e4xbvAGso2D@youtube-chatroom-uc5uy.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://cy-liu:RJCZ0e4xbvAGso2D@youtube-chatroom-uc5uy.gcp.mongodb.net/test?retryWrites=true&w=majority"
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: false});
-
-//Local mongodb as alternate
-//mongoose.connect("mongodb://localhost:27017/youtube-chatroom", {useNewUrlParser: true, useUnifiedTopology: true});
 
 const lib = {};
 
 //CREATION
 lib.createRoom = async (roomName) => {
-  //Not checking for duplicates as roomName should be unique anyway
   try{
     const roomDoc = await Room.findOne({name: roomName});
     if(!roomDoc){

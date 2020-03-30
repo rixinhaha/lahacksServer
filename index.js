@@ -3,16 +3,19 @@ const socketio = require('socket.io');
 const http  = require('http');
 const {addUser, removeUser, getUserAndRoom} = require('./user-utils.js');
 const db = require('./db-utils')
-const path = require('path');
+const bodyParser = require('body-parser')
+const cors = require('cors')
+
 
 const PORT = 5000;
-//const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
 const router =  require('./router');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
+app.use(cors())
+app.set('etag', false);
 
 io.on('connection', (socket)=>{
     console.log("We have a new connection!!!");
@@ -22,7 +25,7 @@ io.on('connection', (socket)=>{
             return resRoom.error;
         }
 
-        const resAddUser = await db.addUserToRoom({user: name, room:room});
+        const resAddUser = await db.addUserToRoom({user: name, room});
         if(resAddUser.error){
             console.log("error: ", resAddUser.error);
             return resAddUser.error;
@@ -54,6 +57,7 @@ io.on('connection', (socket)=>{
         callback()
     });
     socket.on('disconnect', async()=>{
+        console.log("disconnect")
         const info =  getUserAndRoom(socket.id);
 
         const res = await db.removeUserFromRoom({user: info.user, room: info.room});
@@ -70,7 +74,7 @@ io.on('connection', (socket)=>{
 })
 
 app.use(router);
-app.use(express.static(path.join(__dirname, '../lahacksClient/build')));
 app.use(express.urlencoded({extended: true}));
+
 
 server.listen(PORT, ()=>{console.log(`Server has started on ${PORT}`)});
