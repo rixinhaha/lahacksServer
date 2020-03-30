@@ -18,6 +18,9 @@ const io = socketio(server);
 app.use(cors())
 app.set('etag', false);
 
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 io.on('connection', (socket)=>{
     console.log("We have a new connection!!!");
     socket.on('join', async ({name,room}, callback)=>{

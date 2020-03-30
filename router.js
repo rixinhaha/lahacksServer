@@ -5,6 +5,7 @@ const path = require('path');
 
 //root
 router.get('/', (req, res)=>{
+    res.sendFile(path.join(__dirname, '/client/build/index.html'));
     //res.sendFile(path.join(__dirname, '../lahacksClient/build/index.html'));
     res.send('server is up and running');
 });
